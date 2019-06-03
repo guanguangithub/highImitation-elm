@@ -1,5 +1,10 @@
 <template>
-  <p>订单</p>
+    <div>
+        <div class="mint-swipe-items-wrap">
+
+        </div>
+    </div>
+    
 </template>
 <script>
 export default {
@@ -9,3 +14,4 @@ export default {
 <style scoped>
 
 </style>
+

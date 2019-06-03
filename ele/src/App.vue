@@ -31,6 +31,10 @@ export default {
 </script>
 
 <style>
+*{
+  padding: 0;
+  margin: 0
+}
 .container {
   height: 100%;
   display: flex;
