@@ -1,7 +1,7 @@
-import {getCateList} from "@/api/index"
+import {getCateList,getIndList} from "@/api/index"
 
 const state = {
-  list: [1,2,3,4]
+
 }
 
 const mutations = {
@@ -11,7 +11,11 @@ const mutations = {
 const actions = {
   async getCateList(){
     let data = await getCateList();
-    console.log('data...', data);
+    return data
+  },
+  async getIndList(){
+    let list = await getIndList();
+    return list
   }
 }
 
