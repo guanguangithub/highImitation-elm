@@ -1,17 +1,18 @@
-import {getCateList} from "@/api/index"
+import {getCateList} from "@/api/search"
 
 const state = {
-  list: [1,2,3,4]
+  list: []
 }
 
 const mutations = {
-
+ 
 }
 
 const actions = {
   async getCateList(){
     let data = await getCateList();
-    console.log('data...', data);
+    let datalist = data.data
+    return datalist
   }
 }
 

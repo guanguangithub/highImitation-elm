@@ -5,11 +5,11 @@ import Logger from 'vuex/dist/logger';
 Vue.use(Vuex);
 
 // 引入模块
-import index from './modules/index'
+import search from './modules/search'
 
 export default new Vuex.Store({
   modules: {
-    index
+    search
   },
   plugins: [Logger()]
 })

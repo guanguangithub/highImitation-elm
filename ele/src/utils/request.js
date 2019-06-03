@@ -1,4 +1,5 @@
-import Fly from "flyio"
+var Fly = require("flyio/dist/npm/wx")
+
 import store from '@/store/index'
 
 const fly = new Fly()
