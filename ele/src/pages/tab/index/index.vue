@@ -9,7 +9,7 @@
 .Ip_p{
   width:100%;
   height:45px;
-  background:pink;
+
 }
 
 </style>

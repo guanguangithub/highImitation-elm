@@ -3,7 +3,7 @@
     <!-- 搜索页头部 -->
     <div class="header">
       <p>
-        <span>＜</span>
+        <span @click="goindex">＜</span>
         <span>搜索</span>
       </p>
     </div>
@@ -11,7 +11,7 @@
     <div class="section">
       <div action class="formlist">
         <input type="text" placeholder="请输入商家或美食名称" v-model="msg" @input="inputfoucs">
-        <span v-show="tagisshow" class="removetag" @click='removeinput'>×</span>
+        <span v-show="tagisshow" class="removetag" @click="removeinput">×</span>
         <button type="submit" @click="subsearch">提交</button>
       </div>
       <ul v-if="isshow">
@@ -32,7 +32,7 @@
       </ul>
       <ol class="historylist" v-show="ishistory">
         <h2>搜索历史</h2>
-        <li v-for="(item,index) in storagelist" :key="index">
+        <li v-for="(item,index) in storagelist" :key="index" @click="gotoinp(item)">
           <p>{{item}}</p>
           <span @click="removeli(index)">×</span>
         </li>
@@ -58,6 +58,9 @@ export default {
     };
   },
   methods: {
+    goindex() {
+      wx.switchTab({ url: "../index/main" });
+    },
     // 通过传入搜索的字 来获取筛选后的商家列表
     ...mapActions({
       getCateList: "search/getCateList"
@@ -75,34 +78,41 @@ export default {
         } else {
           this.ishas = true;
         }
-      } 
+      }
       this.getCateList({
         str: this.msg
       }).then(res => {
-        if (res.status == 0) {
+        if (res.data.status == 0 || !res.data) {
           this.ishas = true;
         } else {
           this.ishas = false;
-          this.list = res;
+          this.list = res.data;
           this.list.forEach((item, ind) => {
             item.image_path = `//elm.cangdu.org/img/${item.image_path}`;
           });
         }
       });
     },
+    gotoinp(item) {
+      this.msg = item;
+      this.getCateList({
+        str: this.msg
+      });
+      this.ishistory = false;
+    },
 
     inputfoucs() {
       if (!this.msg) {
         this.ishas = false;
         this.isshow = false;
-        this.ishistory = true;  
-      }else{
+        this.ishistory = true;
+      } else {
         this.tagisshow = true;
-      } 
-      
+      }
     },
-    removeinput(){
+    removeinput() {
       this.msg = "";
+      this.tagisshow = false;
       this.ishistory = true;
     },
     removeall() {
@@ -116,7 +126,7 @@ export default {
   },
   created() {
     this.storagelist = wx.getStorageSync("searchHistory") || [];
-    if(this.storagelist){
+    if (this.storagelist) {
       this.ishistory = true;
     }
   }
@@ -183,7 +193,7 @@ body,
   background: #f5f5f5;
   overflow-y: scroll;
   .formlist {
-    position:relative;
+    position: relative;
     width: 100%;
     height: 65px;
     @include flexwrap();
@@ -193,11 +203,11 @@ body,
     font-weight: bold;
     .removetag {
       position: absolute;
-      left:70%;
-      top:30%;
-      font-size:20px;
-      z-index:100;
-      color:#5c9cd8
+      left: 70%;
+      top: 30%;
+      font-size: 20px;
+      z-index: 100;
+      color: #5c9cd8;
     }
     input {
       width: 75%;
@@ -257,6 +267,16 @@ body,
           font-size: 12px;
         }
       }
+    }
+  }
+  ul {
+    & > p {
+      width: 100%;
+      height: 40px;
+      margin-top: 5px;
+      background: #fff;
+      line-height: 40px;
+      text-align: center;
     }
   }
 }

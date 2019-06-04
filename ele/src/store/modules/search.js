@@ -12,7 +12,7 @@ const mutations = {
 const actions = {
   async getCateList({commit},payload){
     let data = await getCateList(payload);
-    let datalist = data.data
+    let datalist = data
     return datalist;
   }
 }
