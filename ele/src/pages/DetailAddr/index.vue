@@ -54,17 +54,14 @@ export default {
             curCity:'',
             historyList:[],
             nodata:false
-
         }
     },
    onLoad: async function(option){
-    this.clearSearchList()
+    this.clearSearchList() 
     this.curCityId = option.id
     let data = await this.changeCity(option.id)
     this.curCity = data.name
     this.isShowHistory=true
-    //获取本地历史纪录
-    
   },
   computed:{
       ...mapGetters(['searchResult'])
