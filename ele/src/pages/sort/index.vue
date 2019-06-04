@@ -10,7 +10,7 @@
     </div>
     <div class="sort_container_contents">
       <ul class="sort_container_ula">
-        <li v-for="(item,index) in sortData" :key="index">
+        <li v-for="(item,index) in sortData" :key="index" @click="goToShopping(item)">
             <p class="Pimg"><img :src="item.image_path"/></p>
             <div class="ulb_cont">
               <header class="ulb_cont_head">
@@ -83,6 +83,11 @@ export default {
     }),
     showSelect(ind){
       this.inds = ind;
+    },
+    goToShopping(item){
+      wx.navigateTo({
+          url:`/pages/shopping/main?id=${item.id}`
+      })
     }
   },
   mounted(){

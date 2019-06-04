@@ -4,7 +4,8 @@
     "pages/tab/search/main",
     "pages/tab/order/main",
     "pages/tab/my/main",
-    "pages/sort/main"
+    "pages/sort/main",
+    "pages/shopping/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

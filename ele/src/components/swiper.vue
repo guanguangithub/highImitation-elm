@@ -3,7 +3,7 @@
         <block v-for="(item, index) in datalist" :key="index">
             <swiper-item>
                 <ul class="swiper_ul">
-                  <li v-for="(key,ind) in item.list" :key="ind" @click="toSortComponent(item)">
+                  <li v-for="(key,ind) in item.list" :key="ind" @click="toSortComponent(key)">
                     <span><img :src="key.image_url"/></span>
                     <span>{{key.title}}</span>
                   </li>
@@ -29,7 +29,7 @@ export default {
 
   },
   methods: {
-      toSortComponent(item){
+      toSortComponent(key){
         wx.navigateTo({
           url:'/pages/sort/main'
         })
