@@ -5,17 +5,17 @@ const state = {
 }
 
 const mutations = {
- 
+//  getlist(state,payload){
+//    state.list = payload;
+//  }
 }
-
 const actions = {
-  async getCateList(){
-    let data = await getCateList();
+  async getCateList({commit},payload){
+    let data = await getCateList(payload);
     let datalist = data.data
-    return datalist
+    return datalist;
   }
 }
-
 export default {
   namespaced: true,
   state,
