@@ -3,7 +3,9 @@
     "pages/tab/index/main",
     "pages/tab/search/main",
     "pages/tab/order/main",
-    "pages/tab/my/main"
+    "pages/tab/my/main",
+    "pages/DetailAddr/main",
+    "pages/Cityposition/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

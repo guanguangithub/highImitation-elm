@@ -5,11 +5,12 @@ import Logger from 'vuex/dist/logger';
 Vue.use(Vuex);
 
 // 引入模块
-import index from './modules/index'
-
+import cityPosition from './modules/cityPosition'
+import getters  from './getters'
 export default new Vuex.Store({
   modules: {
-    index
+    cityPosition,
   },
+  getters,
   plugins: [Logger()]
 })
