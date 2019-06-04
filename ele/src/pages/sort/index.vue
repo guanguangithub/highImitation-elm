@@ -1,24 +1,19 @@
 <template>
-  <div class="IndexContainer">
-    <div class="IndexHeader">
-      <span><icon type="search" size="20" color="#fff"/></span>
-      <span>长宁区北新泾明基商务广场(北翟路南)</span>
-      <span>登陆|注册</span>
+  <div class="sort_container">
+    <div class="sort_container_header">
+      <p>美食</p>
     </div>
-    <div class="IndexNav">
-      <Swiper :datalist="datalist" />
-    </div>
-    <div class="IndexContent">
-      <div class="IndexContent_header">
-        <span><icon type="success" size="14" color="#ccc"/></span>
-        <span>附近商家</span>
+    <div class="sort_container_nav">
+      <div class="container_Sort_btn" id="SortContainerBtn" :class="inds===ind?'currents':''" v-for="(item,ind) in list" :key="ind" @click="showSelect(ind)">
+        <span>{{item.title}}<b></b></span>
       </div>
-      <div class="IndexContent_cont">
-        <ul class="IndexContent_cont_ula">
-          <li v-for="(item,index) in Merchant" :key="index">
+    </div>
+    <div class="sort_container_contents">
+      <ul class="sort_container_ula">
+        <li v-for="(item,index) in sortData" :key="index">
             <p class="Pimg"><img :src="item.image_path"/></p>
-            <div class="ula_cont">
-              <header class="ula_cont_head">
+            <div class="ulb_cont">
+              <header class="ulb_cont_head">
                 <p>{{item.name}}</p>
                 <p>
                   <span>保</span>
@@ -26,8 +21,8 @@
                   <span>票</span>
                 </p>
               </header>
-              <section class="ula_cont_section">
-                <div class="ula_cont_section_divs">
+              <section class="ulb_cont_section">
+                <div class="ulb_cont_section_divs">
                   <p>
                     <span>&#9733;</span>
                     <span>&#9733;</span>
@@ -38,12 +33,12 @@
                   <p>{{item.rating}}分</p>
                   <p>月售{{item.recent_order_num}}单</p>
                 </div>
-                <div class="ula_cont_section_right">
+                <div class="ulb_cont_section_right">
                   <span>{{item.delivery_mode.text}}</span>
                   <span>准时宝</span>
                 </div>
               </section>
-              <footer class="ula_cont_footer">
+              <footer class="ulb_cont_footer">
                 <p>
                   <span>¥{{item.float_minimum_order_amount}}起送/</span>
                   <span>{{item.piecewise_agent_fee.tips}}</span>
@@ -55,149 +50,138 @@
               </footer>
             </div>
           </li>
-        </ul>
-      </div>
+      </ul>
     </div>
   </div>
 </template>
-
 <script>
 import {mapState, mapActions} from 'vuex';
-import Swiper from "@/components/swiper";
 export default {
-  components: {
-    Swiper
-  },
   data() {
     return {
-      datalist:[],
-      Merchant:[]
+      list:[
+        {
+          id:1,
+          title:'美食'
+        },
+        {
+          id:2,
+          title:'排序'
+        },
+        {
+          id:3,
+          title:'筛选'
+        }
+      ],
+      inds:null,
+      sortData:[]
     }
   },
   methods: {
     ...mapActions({
-      getCateList: 'index/getCateList',
-      getIndList:'index/getIndList'
-    })
+      getSort:'sort/getSort'
+    }),
+    showSelect(ind){
+      this.inds = ind;
+    }
   },
-  mounted() {
-    this.getCateList().then((res)=>{
-      if(res.status === 200){
-        let objOne = {};
-        let objTwo = {};
-        objOne.id = 1;
-        objOne.list = res.data.slice(0,8);
-        objTwo.id = 2;
-        objTwo.list = res.data.slice(8,res.data.length)
-        let dataArr = [objOne,objTwo]
-        dataArr.forEach((item,ind)=>{
-          item.list.forEach((key,ind)=>{
-            key.image_url = 'https://fuss10.elemecdn.com'+key.image_url
-          })
-        })
-        this.datalist = dataArr
-      }
-    })
-    this.getIndList().then((res)=>{
+  mounted(){
+    this.getSort().then((res)=>{
       if(res.status === 200){
         res.data.forEach((item,ind)=>{
           item.image_path = 'https://elm.cangdu.org/img/' + item.image_path
         })
-        this.Merchant = res.data
+        this.sortData = res.data
       }
     })
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
-  *{
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-decoration: none;
-    font-family:"微软雅黑";
-    box-sizing: border-box;
-  }
-  a {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
-  }
-  .IndexContainer{
+  .sort_container{
     width:100%;
     height:100%;
     display: flex;
-    overflow: hidden;
     flex-direction: column;
-    background-color: #f5f5f5;
+    overflow: hidden;
   }
-  .IndexHeader{
-      background-color: #3190e8;
-      position: fixed;
-      z-index: 100;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 45px;
-      display: flex;
-      align-items: center;
-      span:nth-child(1){
-        width:15%;
-        height:100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      span:nth-child(2){
-        flex: 1;
-        height:100%;
-        padding:0 14px;
-        color: #fff;
-        font-size:18px;
-        text-align:center;
-        line-height:45px;
-        text-overflow:ellipsis;
-        overflow:hidden;
-        white-space:nowrap;
-      }
-      span:nth-child(3){
-        width:20%;
-        height:100%;
-        font-size:15px;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  }
-  .IndexNav{
-    margin:45px 0 0 0;
+  .sort_container_header{
     width:100%;
-    height:218px;
-    background-color: #fff;
+    height:45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3190e8;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    p{
+      font-size:18px;
+      color: #fff;
+    }
+  }
+  .sort_container_nav{
+    width:100%;
+    height: 38px;
     border-bottom: 1px solid #eee;
-  }
-  .IndexContent{
-    border-top: 1px solid #eee;
-    margin-top:18px;
-    width:100%;
+    display: flex;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 45px;
+    align-items: center;
     background-color: #fff;
-    .IndexContent_header{
-      width:100%;
-      height: 38px;
+    .container_Sort_btn{
+      width:33.3%;
+      height:24px;
+      box-sizing: border-box;
       display: flex;
       align-items: center;
-      span:nth-child(1){
-        margin:0 5px 0 15px;
+      justify-content: center;
+      position: relative;
+      &:nth-child(1),&:nth-child(2){
+        border-right:1px solid rgb(226, 226, 226);
       }
-      span:nth-child(2){
-        color: #999;
+      span{
         font-size:12px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        b{
+          margin:0 0 0 10px;
+          width:0;
+          height:0;
+          border-left:5px solid transparent;
+          border-right:5px solid transparent;
+          border-top:5px solid #333;
+        }
       }
     }
-    .IndexContent_cont{
-      width:100%;
-      height: auto;
-      .IndexContent_cont_ula{
+    .currents{
+       span{
+        font-size:12px;
+        color: #3190e8;
+        display: flex;
+        align-items: center;
+        b{
+          margin:0 0 0 10px;
+          width:0;
+          height:0;
+          border-left:5px solid transparent;
+          border-right:5px solid transparent;
+          border-bottom:5px solid #3190e8;
+        }
+      }
+    }
+  }
+  .sort_container_contents{
+    width:100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    margin:83px 0 0 0;
+    .sort_container_ula{
         width:100%;
         height:auto;
         li{
@@ -218,10 +202,10 @@ export default {
               height:63px;
             }
           }
-          .ula_cont{
+          .ulb_cont{
             width:78%;
             height:100%;
-            .ula_cont_head{
+            .ulb_cont_head{
               width:100%;
               height:18px;
               display: flex;
@@ -258,12 +242,12 @@ export default {
                 }
               }
             }
-            .ula_cont_section{
+            .ulb_cont_section{
               width:100%;
               height:15px;
               margin:12px 0 0 0;
               display: flex;
-              .ula_cont_section_divs{
+              .ulb_cont_section_divs{
                 width:56%;
                 height:100%;
                 display: flex;
@@ -293,7 +277,7 @@ export default {
                   color: #666;
                 }
               }
-              .ula_cont_section_right{
+              .ulb_cont_section_right{
                 width:44%;
                 height:100%;
                 display: flex;
@@ -325,7 +309,7 @@ export default {
                 }
               }
             }
-            .ula_cont_footer{
+            .ulb_cont_footer{
               margin:13px 0 0 0;
               width:100%;
               height:15px;
@@ -359,7 +343,5 @@ export default {
           }
         }
       }
-    }
   }
 </style>
-
