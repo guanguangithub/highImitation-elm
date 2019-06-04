@@ -6,10 +6,11 @@ Vue.use(Vuex);
 
 // 引入模块
 import index from './modules/index'
-
+import detail from './modules/details'
 export default new Vuex.Store({
   modules: {
-    index
+    index,
+    detail
   },
   plugins: [Logger()]
 })

@@ -10,7 +10,7 @@
     </header>
     <div class="search">
       <a class='content'>
-        <span>搜索饿了么商家、商品名称</span>
+        <span @click="handleDetail">搜索饿了么商家、商品名称</span>
       </a>
     </div>
     
@@ -28,13 +28,22 @@ export default {
   },
   methods: {
     ...mapActions({
-      getCateList: 'index/getCateList'
-    })
+      getCateList: 'index/getCateList',
+       getDetails: 'detail/getDetails',
+
+    }),
+    handleDetail(){
+      // this.$router.push({ path: "/details/index.vue" })
+      console.log(111)
+      this.getDetails()
+    }
   },
   mounted() {
     console.log('this.list...', this.list);
     this.getCateList();
+    
   },
+
 }
 </script>
 
