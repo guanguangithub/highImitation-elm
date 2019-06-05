@@ -10,10 +10,17 @@
     </header>
     <div class="search">
       <a class='content'>
-        <span @click="handleDetail">搜索饿了么商家、商品名称</span>
+        <span>搜索饿了么商家、商品名称</span>
       </a>
     </div>
-    
+    <div class="msite_nav">
+      <swiper class="swiper" indicator-dots='true' autoplay='true'>
+        <swiper-item v-for="(item,index) in swiperList" :key="index">
+           
+        </swiper-item>    
+    </swiper>
+    </div>
+    <div class="shop_list_container"></div>
   </div>
 </template>
 
@@ -21,27 +28,32 @@
 import {mapState, mapActions} from 'vuex';
 
 export default {
-  computed: {
+  data:{
+      swiperList:[],
+    },
+    created(){
+      this.getCateList().then(res=>{
+        this.swiperList=res;
+      })
+    },
+  computed: {  
     ...mapState({
       list: state=>state.index.list
     })
+    
   },
   methods: {
     ...mapActions({
       getCateList: 'index/getCateList',
-       getDetails: 'detail/getDetails',
+      // getMerchant:'index/getMerchant'
 
-    }),
-    handleDetail(){
-      // this.$router.push({ path: "/details/index.vue" })
-      console.log(111)
-      this.getDetails()
-    }
+    })
   },
   mounted() {
-    console.log('this.list...', this.list);
-    this.getCateList();
-    
+      
+     console.log(this.swiperList,'swiperlist....')
+    // this.getMerchant()
+   
   },
 
 }
@@ -57,6 +69,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  background: #fafafa;
 }
 .index-JMUSj_0{
   padding: 0 37rpx;
@@ -113,5 +126,17 @@ export default {
 }
 .search::after{
   background-image: linear-gradient(90deg,#0af,#0085ff);
+}
+.msite_nav{
+  padding-top: 21px;
+  background-color: #fff;
+  border-bottom: 0.5px solid #e4e4e4;
+  height: 212px;
+}
+.shop_list_container{
+  flex: 1;
+  margin-top: 8px;
+  border-top: 0.5px solid #e4e4e4;
+  background-color: #fff;
 }
 </style>

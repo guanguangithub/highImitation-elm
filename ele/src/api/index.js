@@ -9,3 +9,9 @@ export let getCateList = params=>{
 export let getDetails = params=>{
   return request.get('https://elm.cangdu.org/shopping/v2/menu?restaurant_id=1')
 }
+//获取商家
+export let getMerchant=params=>{
+ let data= require.get('https://elm.cangdu.org/shopping/restaurants?latitude=40.041244&longitude=116.300301&offset=0&limit=20&extras[]=activities&keyword=&restaurant_category_id=&restaurant_category_ids[]=&order_by=&delivery_mode[]=')
+ console.log(data)
+ return data
+}
